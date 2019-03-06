@@ -6,7 +6,7 @@ for easier git co-contribution and minimise merge conflicts.
 ## Basic Steps
 
 1. Create project
-2. Add `.gitignore` to project root directory
+2. Add `.gitignore` to project root directory. [Example](https://github.com/github/gitignore/blob/master/Swift.gitignore).
 3. Add customised text macros `IDETemplateMacros.plist` to one of the following directories:
 	
 	- Project user data: `<ProjectName>.xcodeproj/xcuserdata/[username].xcuserdatad/IDETemplateMacros.plist`
