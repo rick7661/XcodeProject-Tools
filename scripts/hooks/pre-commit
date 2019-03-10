@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# Configure path so swiftformat is visible
+PATH="/usr/local/bin:$PATH"
+
+# Run any personal pre-commit hooks
+if [ -d "scripts/hooks/developer_precommit" ]; then
+    for file in scripts/hooks/developer_precommit/*; do
+        if [ -f "$file" ] && [ -x "$file" ]; then
+            "$file" || exit 1
+        fi
+    done
+fi
+
+# Confirm swiftformat is installed
+if ! [ -x "$(command -v swiftformat)" ]; then
+  echo 'Error: swiftformat is not installed.\nPlease install swiftformat 0.39.5 from https://github.com/nicklockwood/SwiftFormat/releases/tag/0.39.5\nCopy the included CommandLineTool/swiftformat binary to your /usr/local/bin/ directory.' >&2
+  exit 1
+fi
+
+disabled_rules="strongOutlets,unusedArguments,redundantSelf"
+swift_version=4.2
+
+# Run swift format on all project directories
+project=`swiftformat ./Project/ --disable ${disabled_rules} --swiftversion ${swift_version} 2>&1 | grep -n "swiftformat completed. 0/" |cut -f1 -d:`
+
+# Concat the line numbers where grep found "swiftformat completed. 0/"
+exit_code=`echo "${project}"`
+
+# Report on code changes and prevent commit from proceeding
+if [ ! "$exit_code" == "2" ]
+then
+    echo "Code reformatted! Review changes, stage & commit as necessary."
+    echo "----"
+    echo "If you believe this is a mistake review 'scripts/hooks/pre-commit' pre commit hook script"
+    exit 1
+fi
+
+# Ensure that there are no focused tests or contexts
+
+focused_tests=$(egrep -nr "(fit|fcontext|fdescribe)\(\"" Project)
+
+if [[ ! -z "${focused_tests}" ]]
+then
+    echo "Focused Tests were found! Please remove them before committing."
+    echo "----"
+    printf "${focused_tests}\n"
+    exit 1
+fi
+
