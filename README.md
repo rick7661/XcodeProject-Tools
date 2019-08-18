@@ -15,7 +15,7 @@ With Xcode ;)
 
 ### Add customised text macros
 
-Add `IDETemplateMacros.plist` to one of the following directories:
+Refer to [Xcode Help: Customize text macros](https://help.apple.com/xcode/mac/10.2/#/dev91a7a31fc), add `IDETemplateMacros.plist` to one of the following directories:
 	
 - Project user data: `<ProjectName>.xcodeproj/xcuserdata/[username].xcuserdatad/IDETemplateMacros.plist`
 - Project shared data (recommended as it can be checked in by git): `<ProjectName>.xcodeproj/xcshareddata/IDETemplateMacros.plist`
