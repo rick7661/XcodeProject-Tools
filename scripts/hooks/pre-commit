@@ -14,15 +14,16 @@ fi
 
 # Confirm swiftformat is installed
 if ! [ -x "$(command -v swiftformat)" ]; then
-  echo 'Error: swiftformat is not installed.\nPlease install swiftformat 0.39.5 from https://github.com/nicklockwood/SwiftFormat/releases/tag/0.39.5\nCopy the included CommandLineTool/swiftformat binary to your /usr/local/bin/ directory.' >&2
+  echo 'Error: swiftformat is not installed.\nPlease install swiftformat 0.39.5 from https://github.com/nicklockwood/SwiftFormat/releases/tag/0.39.5 Copy the included CommandLineTool/swiftformat binary to your /usr/local/bin/ directory.' >&2
   exit 1
 fi
 
 disabled_rules="strongOutlets,unusedArguments,redundantSelf"
 swift_version=4.2
+indent=2
 
 # Run swift format on all project directories
-project=`swiftformat ./Project/ --disable ${disabled_rules} --swiftversion ${swift_version} 2>&1 | grep -n "swiftformat completed. 0/" |cut -f1 -d:`
+project=`swiftformat ./Project/ --indent ${indent} --disable ${disabled_rules} --swiftversion ${swift_version} 2>&1 | grep -n "swiftformat completed. 0/" |cut -f1 -d:`
 
 # Concat the line numbers where grep found "swiftformat completed. 0/"
 exit_code=`echo "${project}"`
