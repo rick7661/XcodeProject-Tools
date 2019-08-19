@@ -77,3 +77,14 @@ With [Carthage](https://github.com/Carthage/Carthage) or [CocoaPods](https://coc
 ### Configure Fastlane
 
 The fun part. 🤦‍♀️
+
+## Useful Tricks
+
+### Supporting latest version iOS
+
+Sometimes due to dependencies on third-party libraries, you can't yet migrate to latest version Xcode while still needing to debug on latest version iOS.
+To support latest version iOS that is not supported by your current version Xcode, install the latest version Xcode and symbolic-link device support, for example:
+
+```
+sudo ln -s /Applications/Xcode_10.3/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport/12.3/ /Applications/Xcode_10.1/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport
+```
